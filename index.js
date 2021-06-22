@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const Manager = require("./lib/Manager");
+
 const fs = require("fs");
 
 let employees = []
@@ -49,15 +50,29 @@ function optionQ () {
 
 function employeeQuestions(choice) {
     if(choice == "Engineer"){
+        inquirer.prompt([
+        {
+            message: "What is the engineers name?",
+            name: "engineerName"
+        },
+        {
+            message: "Id?",
+            name: "id"
+        }, 
+        ]).then(response => {
+            let newEngineer = new Engineer(response.engineerName, response.id)
+        })
         //ask about engineer similar to manager
         console.log(choice)
+        employees.push(choice)
         optionQ()
-    }else {
+
+    }else(choice == "intern") 
         //ask about Inter similar to manager
         console.log(choice)
         optionQ()
     }
-}
+
 
 function createHTML() {
     fs.writeFile("./dist/template.html", JSON.stringify(employees), err => {
